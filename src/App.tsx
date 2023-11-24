@@ -1,41 +1,22 @@
 import { useEffect, useState } from 'react';
 
-
-// import { SideBar } from './components/SideBar';
-// import { Content } from './components/Content';
+import { Content } from './components/Content';
+import { SideBar } from './components/SideBar';
 
 import { api } from './services/api';
 
 import './styles/global.scss';
 
-import { Content } from './components/Content';
-import { SideBar } from './components/SideBar';
-import './styles/content.scss';
-import './styles/sidebar.scss';
-
-interface GenreResponseProps {
-  id: number;
-  name: 'action' | 'comedy' | 'documentary' | 'drama' | 'horror' | 'family';
+interface Genre {
   title: string;
 }
 
-
-
 export function App() {
   const [selectedGenreId, setSelectedGenreId] = useState(1);
-
-  const [genres, setGenres] = useState<GenreResponseProps[]>([]);
-
-  const [selectedGenre, setSelectedGenre] = useState<GenreResponseProps>({} as GenreResponseProps);
+  const [selectedGenre, setSelectedGenre] = useState<Genre>({} as Genre);
 
   useEffect(() => {
-    api.get<GenreResponseProps[]>('genres').then(response => {
-      setGenres(response.data);
-    });
-  }, []);
-
-  useEffect(() => {
-    api.get<GenreResponseProps>(`genres/${selectedGenreId}`).then(response => {
+    api.get<Genre>(`genres/${selectedGenreId}`).then(response => {
       setSelectedGenre(response.data);
     })
   }, [selectedGenreId]);
